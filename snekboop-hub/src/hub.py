@@ -22,9 +22,8 @@ class HubService(Service):
     def on_disconnect(self, conn):
         pass
 
-    def write(self, name, data):
-        for index, datum in enumerate(data):
-            print(name + str(datum))
+    def exposed_write(self, name, data):
+        pass
 
 
 if __name__ == "__main__":
