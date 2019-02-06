@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/u/vili/CS378 Cloud Computing/snekboop-hub/venv"
+set -gx VIRTUAL_ENV "/u/vili/CS378 Cloud Computing/snekboop/snekboop-hub/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

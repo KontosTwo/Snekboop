@@ -1,4 +1,4 @@
-#!/u/vili/CS378 Cloud Computing/snekboop-hub/venv/bin/python
+#!/u/vili/CS378 Cloud Computing/snekboop/snekboop-hub/venv/bin/python
 """
 classic rpyc server (threaded, forking or std) running a SlaveService
 usage:

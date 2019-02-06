@@ -1,4 +1,4 @@
-#!/u/vili/CS378 Cloud Computing/snekboop-hub/venv/bin/python
+#!/u/vili/CS378 Cloud Computing/snekboop/snekboop-hub/venv/bin/python
 """
 The registry server listens to broadcasts on UDP port 18812, answering to
 discovery queries by clients and registering keepalives from all running

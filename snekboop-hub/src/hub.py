@@ -1,29 +1,32 @@
 from rpyc import *
+from uhashring import HashRing
 import string
 import os
 
-num_child_nodes = None
 port = None
 
 try:
-    num_child_nodes = os.environ["SNEKBOOP_NUM_CHILDREN_NODES"]
+    port = os.environ["SNEKBOOP_HUB_PORT"]
 except:
-    print("Failed initialization. The environment variable SNEKBOOP_NUM_CHILDREN_NODES must be defined")
-
-try:
-    port = os.environ["SNEKBOOP_PORT"]
-except:
-    print("Failed initialization. The environment variable SNEKBOOP_PORT must be defined")
+    print("Failed initialization. The environment variable SNEKBOOP_HUB_PORT must be defined")
 
 
 class HubService(Service):
-    def on_connect(self, conn: Connection):
-        conn.
+
+    def __init__(self):
+        self.hash_ring = HashRing(nodes=[])
+
+    def on_connect(self, conn):
         pass
 
-    def on_disconnect(self, conn: Connection):
+    def on_disconnect(self, conn):
         pass
 
-    def write(self, name: string, data: list[dict]):
+    def write(self, name, data):
         for index, datum in enumerate(data):
-            shard_number = index % num_child_nodes
+            print(name + str(datum))
+
+
+if __name__ == "__main__":
+    t = ThreadedServer(HubService, port=int(port))
+    t.start()
