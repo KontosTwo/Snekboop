@@ -1,6 +1,5 @@
-#!/bin/sh
-'''exec' "/u/vili/CS378 Cloud Computing/snekboop/snekboop-api/venv/bin/python" "$0" "$@"
-' '''
+#!/Users/vincentli/Documents/snekboop/snekboop-api/venv/bin/python
+
 # -*- coding: utf-8 -*-
 import re
 import sys
