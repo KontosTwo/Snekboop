@@ -1,6 +1,8 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 import os
+import rpyc
+from boto3 import ec2
 import sys
 
 # hub_port = None
@@ -18,7 +20,6 @@ import sys
 #     print("Failed initialization. The environment variable SNEKBOOP_HUB_IP must be defined")
 
 api_port = None
-
 try:
     api_port = os.environ["SNEKBOOP_API_PORT"]
 except:
@@ -28,13 +29,19 @@ app = Flask(__name__)
 api = Api(app)
 
 
-class SnekboopAPI(Resource):
+class SnekboopWrite(Resource):
     def post(self, name):
         json_data = request.get_json(force=True)
         return {"message": "success"}, 201
 
+class SnekboopQuery(Resource):
+    def put(self, name):
+        json_data = request.get_json(force=True)
+        return {"message": "success"}, 200
 
-api.add_resource(SnekboopAPI, '/<string:name>/write')
+
+api.add_resource(SnekboopWrite, '/<string:name>/write')
+api.add_resource(SnekboopQuery, '/<string:name>/query')
 
 
 if __name__ == '__main__':
