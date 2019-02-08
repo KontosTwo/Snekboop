@@ -1,0 +1,12 @@
+app:
+  build: .
+  environment:
+    - SNEKBOOP_WORKER_PORT=${SNEKBOOP_WORKER_PORT}
+    - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+    - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+  ports:
+    - ${SNEKBOOP_WORKER_PORT}:${SNEKBOOP_WORKER_PORT}
+databases:
+  image: redislabs/rejson
+  ports:
+    - 6379:6379
