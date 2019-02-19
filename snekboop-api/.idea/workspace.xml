@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8d6c2d66-856d-4bc8-9b71-6756f0b3b2f2" name="Default Changelist" comment="" />
+    <list default="true" id="8d6c2d66-856d-4bc8-9b71-6756f0b3b2f2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../snekboop-meta/src/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../snekboop-meta/src/.env" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
