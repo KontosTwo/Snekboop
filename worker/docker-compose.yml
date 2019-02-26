@@ -1,0 +1,11 @@
+version: '3'
+services:
+  virtual_worker:
+    build: ./virtual_worker
+    environment:
+      - SNEKBOOP_WORKER_PORT_RANGE=${SNEKBOOP_WORKER_PORT_RANGE}
+      - SNEKBOOP_ACCESS_KEY=${SNEKBOOP_ACCESS_KEY}
+      - SNEKBOOP_SECRET_KEY=${SNEKBOOP_SECRET_KEY}
+      - SNEKBOOP_LOCAL_PARTITIONS=${SNEKBOOP_LOCAL_PARTITIONS}
+    expose:
+      - "${SNEKBOOP_WORKER_PORT_RANGE}"
