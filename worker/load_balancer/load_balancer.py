@@ -53,6 +53,11 @@ class LoadBalancerService(rpyc.Service):
         s3.Bucket(bucket).download_file(key, bucket + key + '.py')
         pass
 
+    def __chunks(self, l, n):
+        """Yield successive n-sized chunks from l."""
+        for i in range(0, len(l), n):
+            yield l[i:i + n]
+
 
 if __name__ == "__main__":
     from rpyc.utils.server import ThreadedServer
