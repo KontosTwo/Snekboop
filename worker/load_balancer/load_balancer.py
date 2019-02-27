@@ -1,12 +1,12 @@
 import rpyc
 import os
 import boto3
-import socket
+
 port = None
 try:
-    port = int(os.environ['SNEKBOOP_WORKER_PORT'])
+    port = int(os.environ['SNEKBOOP_LB_PORT'])
 except Exception as e:
-    print("SNEKBOOP_WORKER_PORT not set")
+    print("SNEKBOOP_LB_PORT not set")
 
 access_key = None
 try:
@@ -20,17 +20,6 @@ try:
 except Exception as e:
     print("SNEKBOOP_SECRET_KEY not set")
 
-lb_host = None
-try:
-    lb_host = os.environ['SNEKBOOP_LB_HOST']
-except Exception as e:
-    print("SNEKBOOP_LB_HOST not set")
-
-lb_port = None
-try:
-    lb_port = int(os.environ['SNEKBOOP_LB_PORT'])
-except Exception as e:
-    print("SNEKBOOP_LB_PORT not set")
 
 session = boto3.Session(
     aws_access_key_id=access_key,
@@ -39,29 +28,33 @@ session = boto3.Session(
 
 s3 = session.resource('s3')
 
-class WorkerService(rpyc.Service):
+class LoadBalancerService(rpyc.Service):
 
     def __init__(self):
-        self.data = {}
-        self.host = socket.gethostname()
-        self.port = port
-        self.lb_conn = rpyc.connect(lb_host, lb_port)
+        self.functions = {}
+        self.virtual_workers = []
 
     def on_connect(self, conn):
+        self.virtual_workers.append(conn.root)
         pass
 
     def on_disconnect(self, conn):
         pass
 
     def exposed_write(self, name, data):
-        data[name].extend(data)
+
         pass
 
-    def exposed_query(self, name, bucket, path):
+    def exposed_query(self, name, bucket, key):
+        function_unique_id = bucket + key
+        pass
+
+    def __fetch_and_cache_function(self, bucket, key):
+        s3.Bucket(bucket).download_file(key, bucket + key + '.py')
         pass
 
 
 if __name__ == "__main__":
     from rpyc.utils.server import ThreadedServer
-    t = ThreadedServer(WorkerService(), port=port)
+    t = ThreadedServer(LoadBalancerService(), port=port)
     t.start()

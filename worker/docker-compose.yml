@@ -3,9 +3,36 @@ services:
   virtual_worker:
     build: ./virtual_worker
     environment:
-      - SNEKBOOP_WORKER_PORT_RANGE=${SNEKBOOP_WORKER_PORT_RANGE}
+      - SNEKBOOP_WORKER_PORT=${SNEKBOOP_WORKER_PORT}
       - SNEKBOOP_ACCESS_KEY=${SNEKBOOP_ACCESS_KEY}
       - SNEKBOOP_SECRET_KEY=${SNEKBOOP_SECRET_KEY}
-      - SNEKBOOP_LOCAL_PARTITIONS=${SNEKBOOP_LOCAL_PARTITIONS}
+      - SNEKBOOP_LB_HOST=${SNEKBOOP_LB_HOST}
+      - SNEKBOOP_LB_PORT=${SNEKBOOP_LB_PORT}
     expose:
-      - "${SNEKBOOP_WORKER_PORT_RANGE}"
+      - ${SNEKBOOP_WORKER_PORT}
+    ports:
+      - ${SNEKBOOP_WORKER_PORT_RANGE}
+    depends_on:
+      - load_balancer
+    links:
+      - load_balancer
+    networks:
+      worker:
+
+  load_balancer:
+    build: ./load_balancer
+    environment:
+      - SNEKBOOP_LB_PORT=${SNEKBOOP_LB_PORT}
+      - SNEKBOOP_ACCESS_KEY=${SNEKBOOP_ACCESS_KEY}
+      - SNEKBOOP_SECRET_KEY=${SNEKBOOP_SECRET_KEY}
+      - SNEKBOOP_LB_HOST=${SNEKBOOP_LB_HOST}
+    expose:
+      - ${SNEKBOOP_LB_PORT}
+    ports:
+      - ${SNEKBOOP_LB_PORT_RANGE}
+    networks:
+      worker:
+        aliases:
+          - ${SNEKBOOP_LB_HOST}
+networks:
+  worker:
