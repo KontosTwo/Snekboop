@@ -1,6 +1,7 @@
 import rpyc
 import os
 import boto3
+import importlib
 
 port = None
 try:
@@ -28,6 +29,7 @@ session = boto3.Session(
 
 s3 = session.resource('s3')
 
+
 class LoadBalancerService(rpyc.Service):
 
     def __init__(self):
@@ -35,28 +37,47 @@ class LoadBalancerService(rpyc.Service):
         self.virtual_workers = []
 
     def on_connect(self, conn):
-        self.virtual_workers.append(conn.root)
         pass
 
     def on_disconnect(self, conn):
         pass
 
-    def exposed_write(self, name, data):
+    def exposed_connect(self, virtual_worker_host, virtual_worker_post):
+        self.virtual_workers.append(VirtualWorkerAddress(virtual_worker_host, virtual_worker_post))
 
+    def exposed_write(self, name, data):
         pass
 
     def exposed_query(self, name, bucket, key):
-        function_unique_id = bucket + key
+        function = self.__fetch_function(bucket, key)
         pass
 
-    def __fetch_and_cache_function(self, bucket, key):
-        s3.Bucket(bucket).download_file(key, bucket + key + '.py')
-        pass
+    def __fetch_function(self, bucket, key):
+        func_id = bucket + key
+        if func_id in self.functions:
+            return self.functions[func_id]
+        else:
+            func_file_name = func_id + '.py'
+            s3.Bucket(bucket).download_file(key, func_file_name)
+
+
+            return self.functions[func_id]
+
 
     def __chunks(self, l, n):
         """Yield successive n-sized chunks from l."""
         for i in range(0, len(l), n):
             yield l[i:i + n]
+
+
+class VirtualWorkerAddress:
+
+    def __init__(self, host, port):
+        self.host = host
+        self.port = port
+
+    def conn(self):
+        return rpyc.connect(self.host, self.port)
 
 
 if __name__ == "__main__":

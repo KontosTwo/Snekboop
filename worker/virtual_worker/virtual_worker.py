@@ -45,7 +45,9 @@ class WorkerService(rpyc.Service):
         self.data = {}
         self.host = socket.gethostname()
         self.port = port
-        self.lb_conn = rpyc.connect(lb_host, lb_port)
+        lb_conn = rpyc.connect(lb_host, lb_port)
+        lb_conn.root.connect(self.host, self.port)
+
 
     def on_connect(self, conn):
         pass
@@ -57,8 +59,9 @@ class WorkerService(rpyc.Service):
         data[name].extend(data)
         pass
 
-    def exposed_query(self, name, bucket, path):
-        pass
+    def exposed_execute(self, name, func):
+        data_list = self.data[name]
+        return func(data_list)
 
 
 if __name__ == "__main__":
