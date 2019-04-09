@@ -1,0 +1,9 @@
+FROM node:8.15.1-alpine
+
+ENV SNEKBOOP_META_REDIS_HOST=127.0.0.1
+ENV SNEKBOOP_META_REDIS_PORT=6379
+
+COPY . .
+
+ENTRYPOINT ["npm",  "run", "tester.js"]
+
