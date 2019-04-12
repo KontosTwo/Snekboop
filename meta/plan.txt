@@ -1,0 +1,16 @@
+available_partitions :[[host,port],[host,port],[host,port]]
+
+name : {
+	name1: [[host,port],[host,port]]
+	name2: [[host,port]]
+}
+
+round_robin_counter : 3
+
+shard_round_robin_counter: {name, number}
+
+
+
+Environment variables:
+   shard_level=5
+   num_shards
