@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-(cd deploy && zip -r deploy.zip *)
-(cd find && zip -r find.zip *)
+(cd deploy && rm deploy.zip && zip -r deploy.zip *)
+(cd find && rm find.zip && zip -r find.zip *)
