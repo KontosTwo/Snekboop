@@ -9,6 +9,7 @@ exports.handler = async (event) => {
     var sockets = event.sockets;
     var shardLevel = event.shardLevel;
 
+    // Error check
     if(shardLevel > sockets.length){
         const response = {
             statusCode: 400,
@@ -17,7 +18,7 @@ exports.handler = async (event) => {
         
         return response;
     }
-    // initializing metadata
+    // initializing metadata    
     var shardLevelPromise = asyncClient.set("shardLevel",shardLevel);
     var numShardsPromise = asyncClient.set("numShards", sockets.length);
     var shardCounterPromise = asyncClient.set("globalShardCounter", 0);
@@ -32,7 +33,7 @@ exports.handler = async (event) => {
     await numShardsPromise;
     await shardCounterPromise;
     const response = {
-        statusCode: 200,
+        statusCode: 201,
         body: JSON.stringify({ message: sockets})
     };
     
