@@ -39,20 +39,14 @@ import argparse
 
 
 def main():
-	#parser = argparse.ArgumentParser()
-	#parser.add_argument("echo", help="echo the string you use here")
-	#args = parser.parse_args()
-	#print(args.echo)
-
 	parser = argparse.ArgumentParser()
-	#adding all major arguments here
-    parser.add_argument("create", help="Sets up the infrastructure")
-    #parser.add_argument("deploy", help="Programmatically deploys a node.")
-    #parser.add_argument("upload", help="Uploads a json list of data to the system. ")
-    #parser.add_argument("write", help="Fetches authentication info from environment variables.")
-    #parser.add_argument("query", help="Fetches authentication info from environment variables.")
-
-
+	parser.add_argument("create", help="Sets up the infrastructure.")
+	parser.add_argument("deploy", help="Programmatically deploys a node.")
+	parser.add_argument("upload", help="Uploads a json list of data to the system.")
+	parser.add_argument("write", help="Fetches authentication info from environment variables.")
+	parser.add_argument("query", help="Fetches authentication info from environment variables.")
+	args = parser.parse_args()
+	
 	#args = parser.parse_args()
 	#if(args.create):
 	#	print("args = create")
@@ -72,8 +66,7 @@ def main():
 
 
     
-	args = parser.parse_args()
-	#print(args.create)
+	print(args.create)
 	#
     # code here
 
