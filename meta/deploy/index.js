@@ -20,6 +20,7 @@ exports.handler = async (event) => {
     // initializing metadata
     var shardLevelPromise = asyncClient.set("shardLevel",shardLevel);
     var numShardsPromise = asyncClient.set("numShards", sockets.length);
+    var shardCounterPromise = asyncClient.set("globalShardCounter", 0);
     var socketsPromises = [];
     for(var i = 0; i < sockets.length; i ++){
         socketsPromises.push(asyncClient.hmset("shard",i,JSON.stringify(sockets[i])));
@@ -29,7 +30,7 @@ exports.handler = async (event) => {
     }
     await shardLevelPromise;
     await numShardsPromise;
-
+    await shardCounterPromise;
     const response = {
         statusCode: 200,
         body: JSON.stringify({ message: sockets})
