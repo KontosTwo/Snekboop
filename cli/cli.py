@@ -21,23 +21,23 @@ class CLI:
 		#def create(self): #--access=<access key> --secret=<secret key> --shard=<total number of partitions>
 		#	print("hello")
 		#	return "hello"
-	def create(access_key, secret_key, num_shards):
+	def create(self, access_key, secret_key, num_shards):
 		print("create is correct")
 
-		if file_exists(access_key):
-			print("create_access_key     = " + str(access_key) )
-		if file_exists(access_key):
-			print("create_secret_key    = " + str(secret_key) )
+		#if file_exists(access_key):
+		#	print("create_access_key     = " + str(access_key) )
+		#if file_exists(access_key):
+		#	print("create_secret_key    = " + str(secret_key) )
 
-			print("create_num_shards     = " + str(num_shards) )
+		#	print("create_num_shards     = " + str(num_shards) )
 
 
-	def deploy(deploy_handler_file):
+	def deploy(self, deploy_handler_file):
 		print("deploy is correct")
 
 		#query that num_shards specified on cli is less than the var shard_level on the elasticache instance.
 
-	def upload(upload_file_name, upload_num_shards, upload_jason_file):
+	def upload(self, upload_file_name, upload_num_shards, upload_jason_file):
 		print("upload is correct")
 
 
@@ -122,7 +122,6 @@ def main():
 		cli_handler.create(args.create_access_key, args.create_secret_key, args.create_num_shards)
 
 	elif args.sub_command == 'deploy':
-		print("hello")
 		cli_handler.deploy(args.deploy_handler_file)
 
 	elif args.sub_command == 'upload':
