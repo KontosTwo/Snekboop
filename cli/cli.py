@@ -6,6 +6,7 @@ import sys
 import os
 import argparse
 import boto3 #to access the aws api and the credentials (asuming they are already configured)
+import json #for parsing and interacting with the json data
 
 from os.path import expanduser #used to verify user directories
 from botocore.exceptions import ClientError
@@ -54,7 +55,7 @@ class CLI:
 
 	def upload(self, upload_file_name, upload_num_shards, upload_jason_file):
 		print("upload is correct")
-
+		self.get_num_json_records(upload_file_name)
 
 
 
@@ -63,10 +64,13 @@ class CLI:
 	#Provides standard error messages to other CLI functions.
 	def print_error(self, issue):
 		#referenced assignment 2 for intuitive error handling
-		built_in_error_messages = []
+		built_in_error_messages = {}
 
 		#for create function
 		built_in_error_messages['incorrect_shard_value'] = 'The shard value must be an integer value greater than 0.'
+
+		#for when the file does not exist in the filesystem
+		built_in_error_messages['file_does_not_exist'] = 'The specified file does not exist.'
 
 		#if issue does not have an error message:
 		built_in_error_messages['unknown_error'] = 'Something was not correct with the request. Try again.'
@@ -77,13 +81,14 @@ class CLI:
 			return built_in_error_messages['unknown_error']
 
 
-	#Verifies that the input filename actually exists - the contents of the file will not be checked.
+	#Verifies that the input filen actually exists - the contents of the file will not be checked.
 	def file_exists(self, filename):
 		print("entered func file_exists\n")
 		path_to_verify = Path(str(filename))
 		if os.path.isfile(path_to_verify):
 			return True
 		else:
+			print( self.print_error('file_does_not_exist') ) 
 			return False
 
 	#Verifies that the input number of shards is positive and at least 1.
@@ -93,7 +98,7 @@ class CLI:
 		if num_shards > 0:
 			return True
 		else:
-			print(print_error('incorrect_shard_value'))
+			print( self.print_error('incorrect_shard_value') )
 			return False
 
 	#verifies if the user already has credentials for AWS configured on local machine
@@ -116,8 +121,30 @@ class CLI:
 
 		return preconfigured_services
 		
+	#Returns number of json records in a file. 
+	def get_num_json_records(self, input_file):
+		print("Entered get_num_json_records()")
+		count = 0
+		if self.file_exists( input_file):
+			print("TEST_TEST_TEST")
+			#records = json.load(input_file)
+			#long for-loop method - may want to change later see comment below
+			#for record in records
+			#	count++
+
+		return count
+
+		#note: research indicates that we could use json.loads() function to easily grab all the 
+		#json elements into a dictionary and then use len(json_dictionary_var_name) to quickly
+		#get the number of elements, but we must know the json structure first
+		#
+		#I will assume a basic sturcture of top level "records" and then many "record" 
+		#within that structure - see test.json in this folder
+
+		
 
 
+#non-CLI class functions
 def grab_args_from_cli():
 	#referenced for argparse tutorial: https://rajadavidhasugian.wordpress.com/2017/06/10/using-argparse-to-pass-arguments-into-python-script/
 	#referenced for argparse FileType syntax = https://stackoverflow.com/questions/36167685/how-to-pass-file-as-argument-in-python-script-using-argparse-module#36167749
