@@ -86,7 +86,8 @@ class CLI:
 
 
 def grab_args_from_cli():
-	#referenced: https://rajadavidhasugian.wordpress.com/2017/06/10/using-argparse-to-pass-arguments-into-python-script/
+	#referenced for argparse tutorial: https://rajadavidhasugian.wordpress.com/2017/06/10/using-argparse-to-pass-arguments-into-python-script/
+	#referenced for argparse FileType syntax = https://stackoverflow.com/questions/36167685/how-to-pass-file-as-argument-in-python-script-using-argparse-module#36167749
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument("snekboop", help="Sets up the infrastructure.")
@@ -95,16 +96,13 @@ def grab_args_from_cli():
 	sub_parser = parser.add_subparsers(dest='sub_command')
 
 	parser_create = sub_parser.add_parser('create')
-	#source = https://stackoverflow.com/questions/36167685/how-to-pass-file-as-argument-in-python-script-using-argparse-module#36167749
 	parser_create.add_argument('--access', action="store", dest='create_access_key', help="Path to AWS access key")
 	parser_create.add_argument('--secret', action="store", dest='create_secret_key',help="Path to AWS secret key")
 	parser_create.add_argument('--shard', type=int, dest='create_num_shards',default=1)
 
-
 	parser_deploy = sub_parser.add_parser('deploy')
 	parser_deploy.add_argument('--file', action="store", dest='deploy_handler_file', help="Path to Handler.zip")
 	
-
 	parser_upload = sub_parser.add_parser('upload')
 	parser_upload.add_argument('--name', type=str, dest='upload_file_name', default=1)
 	parser_upload.add_argument('--shard', type=int, dest='upload_num_shards',default=1)
@@ -117,6 +115,8 @@ def grab_args_from_cli():
 		print(e)
 
 	return args
+
+
 
 def main():
 	
