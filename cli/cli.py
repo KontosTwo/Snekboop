@@ -24,13 +24,14 @@ class CLI:
 	def create(self, access_key, secret_key, num_shards):
 		print("create is correct")
 
+		answer = self.existing_aws_user_credentials()
 		#if file_exists(access_key):
 		#	print("create_access_key     = " + str(access_key) )
 		#if file_exists(access_key):
 		#	print("create_secret_key    = " + str(secret_key) )
 
 		#	print("create_num_shards     = " + str(num_shards) )
-
+		print(answer)
 
 	def deploy(self, deploy_handler_file):
 		print("deploy is correct")
@@ -60,11 +61,13 @@ class CLI:
 			return False
 
 
-	def existing_aws_user_credentials():
+	def existing_aws_user_credentials(self):
 		#used: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where
 		#also referenced given code from assignment 1
 
 		preconfigured_services = [] #use array because we might need to check more service configs 
+		home_dir = expanduser("~")
+
 		if os.path.exists(home_dir + "/.aws/credentials") and os.path.exists(home_dir + "/.aws/config"):
 			preconfigured_services.append("aws")
         
