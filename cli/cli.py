@@ -16,6 +16,7 @@ class CLI:
 
 	#class objects stored for global reference
 	shard_level = 0 #defaults to 0 when CLI is initially run.
+	local_upload_filename_store = {}
 
 
 	def __init__(self):
@@ -55,11 +56,54 @@ class CLI:
 
 	def upload(self, upload_file_name, upload_num_shards, upload_jason_file):
 		print("upload is correct")
-		self.get_num_json_records(upload_file_name)
+
+		#upload_file_name -> make sure that it is a unique name -> perhaps use a quick 
+		#lookup table which is stored locally?
+
+
+		if self.file_exists( input_file):
+			self.get_num_json_records(upload_file_name)
 
 
 
 	#helper functions below:
+
+	#Returns True if the specified Upload_filename was successfully uploaded.
+	def add_upload_filename_to_local_store(self, filename):
+		add_check = len(local_upload_filename_store)
+		if filename is not None
+			if filename in local_upload_filename_store:
+				print("TESTING: This upload_filename already exists")
+			else:
+				local_upload_filename_store[str(filename)] = str(filename) #may need to rethink this datastructure, or perhaps store something other than the name as the value
+
+		if len(local_upload_filename_store) > add_check
+			return True
+		else:
+			return False
+
+	#Returns True if the specified Upload_filename was successfully removed.
+	def remove_upload_filename_from_local_store(self, filename):
+		remove_check = len(local_upload_filename_store)
+		if filename is not None
+			if filename in local_upload_filename_store:
+				print("TESTING: This upload_filename is in the local store")
+				local_upload_filename_store.pop(str(filename))
+			else:
+				print("TESTING: this filename does not exist")
+
+		if len(local_upload_filename_store) < remove_check
+			return True
+		else:
+			return False
+
+	#Returns True if entire dictionary was successfully deleted.
+	def delete_entire_upload_filemane_local_store(self):
+		if len(local_upload_filename_store) is not 0
+			del local_upload_filename_store
+
+		return len(local_upload_filename_store) == 0
+
 
 	#Provides standard error messages to other CLI functions.
 	def print_error(self, issue):
