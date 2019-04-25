@@ -13,15 +13,12 @@ from pathlib import Path #used to convert strings to Path types
 
 class CLI:
 
-	def __init__(self):
-	        self.client = boto3.client('ec2')
+	#class objects stored for global reference
+	shard_level = 0 #defaults to 0 when CLI is initially run.
 
-	#CLI notes:
-	#
-	#functions we need:
-		#def create(self): #--access=<access key> --secret=<secret key> --shard=<total number of partitions>
-		#	print("hello")
-		#	return "hello"
+
+	def __init__(self):
+	        self.client = boto3.client('ec2') #!!! discuss using a session instead of a client
 
 	#Creates an AWS Lamda service instance using either the preconfigured AWS credentials 
 	#on local machine or allows the usr to specify the specific access key, and secret key.
@@ -42,6 +39,9 @@ class CLI:
 		#verify shard value
 		if self.verify_num_shards(num_shards):
 			print("create_num_shards     = " + str(num_shards) )
+			self.shard_level = num_shards
+			print("self.shard_level     = " + str(self.shard_level) )
+
 		
 		print(existing_credentials)
 
@@ -68,7 +68,6 @@ class CLI:
 		#for create function
 		built_in_error_messages['incorrect_shard_value'] = 'The shard value must be an integer value greater than 0.'
 
-
 		#if issue does not have an error message:
 		built_in_error_messages['unknown_error'] = 'Something was not correct with the request. Try again.'
 		
@@ -78,7 +77,7 @@ class CLI:
 			return built_in_error_messages['unknown_error']
 
 
-	#verification code:
+	#Verifies that the input filename actually exists - the contents of the file will not be checked.
 	def file_exists(self, filename):
 		print("entered func file_exists\n")
 		path_to_verify = Path(str(filename))
@@ -87,6 +86,7 @@ class CLI:
 		else:
 			return False
 
+	#Verifies that the input number of shards is positive and at least 1.
 	def verify_num_shards(self, num_shards):
 		print("entered func verify_num_shards\n")
 
@@ -101,6 +101,8 @@ class CLI:
 		#used: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where
 		#also referenced given code from assignment 1
 
+		#default action if keys are not specified is to grab the preconfigured aws account credentials
+		#but we need to discuss if we need to use a boto3.session instead of boto3.client
 		preconfigured_services = [] #use array because we might need to check more service configs 
 		home_dir = expanduser("~")
 
@@ -135,7 +137,7 @@ def grab_args_from_cli():
 	parser_deploy.add_argument('--file', action="store", dest='deploy_handler_file', help="Path to Handler.zip")
 	
 	parser_upload = sub_parser.add_parser('upload')
-	parser_upload.add_argument('--name', type=str, dest='upload_file_name', default=1)
+	parser_upload.add_argument('--name', type=str, dest='upload_file_name')
 	parser_upload.add_argument('--shard', type=int, dest='upload_num_shards',default=1)
 	parser_upload.add_argument('--jason_file', action="store", dest='upload_jason_file', help="Path to .json file")
 
@@ -157,7 +159,6 @@ def main():
     #testing that we can retireve all cli commands correctly
 	print(args)
 	print("\n==================================================\n")
-	#create(self, access_key, secret_key, num_shards)
 
 
 	if args.sub_command == 'create':
