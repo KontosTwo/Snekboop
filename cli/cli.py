@@ -16,10 +16,12 @@ import argparse
 	#def create(self): #--access=<access key> --secret=<secret key> --shard=<total number of partitions>
 	#	print("hello")
 	#	return "hello"
-def create(self, access_key, secret_key, num_shards):
-	#print(access_key)
-	#print(secret_key)
-	print(num_shards)
+def create(access_key, secret_key, num_shards):
+	print("create is correct")
+
+	print("create_access_key     = " + str(access_key) )
+	print("create_secret_key    = " + str(secret_key) )
+	print("create_num_shards     = " + str(num_shards) )
 
 
 
@@ -73,23 +75,6 @@ def main():
     #    parser.error(str(msg))
 
 	args = parser.parse_args()
-	
-	#args = parser.parse_args()
-	#if(args.create):
-	#	print("args = create")
-	#elif(args.deploy):
-	#	print("args = deploy")
-	#elif(args.upload):
-	#	print("args = upload")
-	#elif(args.write):
-	#	print("args = write")
-	#elif(args.query):
-	#	print("args = query")
-
-    #my_cli = cli()
-
-    #referenced: https://docs.python.org/2/howto/argparse.html
-    #parser = argparse.ArgumentParser()
 
 
     #testing that we can retireve all cli commands correctly
@@ -99,10 +84,7 @@ def main():
 
 
 	if args.sub_command == 'create':
-		print("create is correct")
-		print("create_access_key     = " + str(args.create_access_key) )
-		print("create_secret_key    = " + str(args.create_secret_key) )
-		print("create_num_shards     = " + str(args.create_num_shards) )
+		create(args.create_access_key, args.create_secret_key, args.create_num_shards)
 
 	elif args.sub_command == 'deploy':
 		print("deploy is correct")
