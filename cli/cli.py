@@ -9,6 +9,7 @@ import boto3 #to access the aws api and the credentials (asuming they are alread
 
 from os.path import expanduser #used to verify user directories
 from botocore.exceptions import ClientError
+from pathlib import Path #used to convert strings to Path types
 
 class CLI:
 
@@ -29,14 +30,22 @@ class CLI:
 	def create(self, access_key, secret_key, num_shards):
 		print("create is correct")
 
-		answer = self.existing_aws_user_credentials()
-		#if file_exists(access_key):
-		#	print("create_access_key     = " + str(access_key) )
-		#if file_exists(access_key):
-		#	print("create_secret_key    = " + str(secret_key) )
+		#check if aws credentials exist
+		existing_credentials = self.existing_aws_user_credentials()
 
-		#	print("create_num_shards     = " + str(num_shards) )
-		print(answer)
+		#if either key is specified then overwrite that key
+		if self.file_exists(access_key) and access_key is  None:
+			print("create_access_key     = " + str(access_key) )
+		if self.file_exists(secret_key) and secret_key is  None:
+			print("create_secret_key    = " + str(secret_key) )
+
+		#verify shard value
+		if self.verify_num_shards(num_shards):
+			print("create_num_shards     = " + str(num_shards) )
+		
+		print(existing_credentials)
+
+
 
 	def deploy(self, deploy_handler_file):
 		print("deploy is correct")
@@ -51,18 +60,40 @@ class CLI:
 
 	#helper functions below:
 
+	#Provides standard error messages to other CLI functions.
+	def print_error(self, issue):
+		#referenced assignment 2 for intuitive error handling
+		built_in_error_messages = []
+
+		#for create function
+		built_in_error_messages['incorrect_shard_value'] = 'The shard value must be an integer value greater than 0.'
+
+
+		#if issue does not have an error message:
+		built_in_error_messages['unknown_error'] = 'Something was not correct with the request. Try again.'
+		
+		if issue:
+			return built_in_error_messages[issue]
+		else:
+			return built_in_error_messages['unknown_error']
+
+
 	#verification code:
-	def file_exists( filename):
-		print("got here")
-		if os.path.isfile(filename):
+	def file_exists(self, filename):
+		print("entered func file_exists\n")
+		path_to_verify = Path(str(filename))
+		if os.path.isfile(path_to_verify):
 			return True
 		else:
 			return False
 
-	def verify_num_shards( num_shards):
-		if num_shards > 0 and num_shards.is_integer():
+	def verify_num_shards(self, num_shards):
+		print("entered func verify_num_shards\n")
+
+		if num_shards > 0:
 			return True
 		else:
+			print(print_error('incorrect_shard_value'))
 			return False
 
 	#verifies if the user already has credentials for AWS configured on local machine
