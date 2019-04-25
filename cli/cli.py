@@ -19,29 +19,33 @@ import argparse
 def create(access_key, secret_key, num_shards):
 	print("create is correct")
 
-	print("create_access_key     = " + str(access_key) )
-	print("create_secret_key    = " + str(secret_key) )
-	print("create_num_shards     = " + str(num_shards) )
+	if file_exists(access_key):
+		print("create_access_key     = " + str(access_key) )
+		print("create_secret_key    = " + str(secret_key) )
+		print("create_num_shards     = " + str(num_shards) )
+
+
+def deploy(deploy_handler_file):
+	print("deploy is correct")
+
+
+def upload(upload_file_name, upload_num_shards, upload_jason_file):
+	print("upload is correct")
 
 
 
 
 
 
-	#deploys node.js landa deployment package
-	#def deploy(self):# <handler>.zip
+#verification code:
+def file_exists( filename):
+	print("got here")
+	#if os.path.exists(filename)
+	#	return True
+	#else
+	#	return False
+	return True
 
-
-
-	#def upload(self):# --name=<name of category> --shard=<number of partitions> <json-file>.json
-	 
-
-	#Library - Implement in python, using asyncio https://stackoverflow.com/questions/22190403/how-could-i-use-requests-in-asyncio
-
-	#def write(name, json):
-
-
-	#def query(name, query): 
 
 
 
@@ -54,19 +58,19 @@ def main():
 
 	parser_create = sub_parser.add_parser('create')
 	#source = https://stackoverflow.com/questions/36167685/how-to-pass-file-as-argument-in-python-script-using-argparse-module#36167749
-	parser_create.add_argument('-access', type=argparse.FileType('r'), default=1, dest='create_access_key', help="Path to AWS access key")
-	parser_create.add_argument('-secret', type=argparse.FileType('r'), default=1, dest='create_secret_key',help="Path to AWS secret key")
+	parser_create.add_argument('-access', action="store", dest='create_access_key', help="Path to AWS access key")
+	parser_create.add_argument('-secret', action="store", dest='create_secret_key',help="Path to AWS secret key")
 	parser_create.add_argument('-shard', type=int, dest='create_num_shards',default=1)
 
 
 	parser_deploy = sub_parser.add_parser('deploy')
-	parser_deploy.add_argument('-file', type=argparse.FileType('r'), default=1, dest='deploy_handler_file', help="Path to Handler.zip")
+	parser_deploy.add_argument('-file', action="store", dest='deploy_handler_file', help="Path to Handler.zip")
 	
 
 	parser_upload = sub_parser.add_parser('upload')
 	parser_upload.add_argument('-name', type=str, dest='upload_file_name', default=1)
 	parser_upload.add_argument('-shard', type=int, dest='upload_num_shards',default=1)
-	parser_upload.add_argument('-jason_file', type=argparse.FileType('r'), default=1, dest='upload_jason_file', help="Path to .json file")
+	parser_upload.add_argument('-jason_file', action="store", dest='upload_jason_file', help="Path to .json file")
 
 	#parse all commands together from cli
 	#try:
@@ -87,25 +91,11 @@ def main():
 		create(args.create_access_key, args.create_secret_key, args.create_num_shards)
 
 	elif args.sub_command == 'deploy':
-		print("deploy is correct")
-		print("deploy_handler_filey     = " + str(args.deploy_handler_file) )
+		deploy(args.deploy_handler_file)
 
 	elif args.sub_command == 'upload':
-		print("upload is correct")
-		print("upload_file_name     = " + str(args.upload_file_name) )
-		print("upload_num_shards    = " + str(args.upload_num_shards) )
-		print("upload_jason_file     = " + str(args.upload_jason_file) )
+		upload(args.upload_file_name, args.upload_num_shards, args.upload_jason_file)
 
-	#
-    # code here
-
-
-    #while True:
-    #	try:
-    #		cli_string = ''
-
-#	except Exception as e:
-#   		print(e)
 
 
 if __name__ == '__main__':
