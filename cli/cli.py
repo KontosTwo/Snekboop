@@ -21,6 +21,11 @@ class CLI:
 		#def create(self): #--access=<access key> --secret=<secret key> --shard=<total number of partitions>
 		#	print("hello")
 		#	return "hello"
+
+	#Creates an AWS Lamda service instance using either the preconfigured AWS credentials 
+	#on local machine or allows the usr to specify the specific access key, and secret key.
+	#Lasetly this takes in the number of AWS elasticache instances the user wants to 
+	#distribute their data over.
 	def create(self, access_key, secret_key, num_shards):
 		print("create is correct")
 
@@ -60,7 +65,7 @@ class CLI:
 		else:
 			return False
 
-
+	#verifies if the user already has credentials for AWS configured on local machine
 	def existing_aws_user_credentials(self):
 		#used: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-where
 		#also referenced given code from assignment 1
