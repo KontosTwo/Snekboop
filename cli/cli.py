@@ -86,6 +86,8 @@ class CLI:
 
 
 def grab_args_from_cli():
+	#referenced: https://rajadavidhasugian.wordpress.com/2017/06/10/using-argparse-to-pass-arguments-into-python-script/
+
 	parser = argparse.ArgumentParser()
 	parser.add_argument("snekboop", help="Sets up the infrastructure.")
 
@@ -108,8 +110,12 @@ def grab_args_from_cli():
 	parser_upload.add_argument('--shard', type=int, dest='upload_num_shards',default=1)
 	parser_upload.add_argument('--jason_file', action="store", dest='upload_jason_file', help="Path to .json file")
 
+	args = None
+	try:
+		args = parser.parse_args()
+	except Exception as e:
+		print(e)
 
-	args = parser.parse_args() #put into try catch and test later
 	return args
 
 def main():
