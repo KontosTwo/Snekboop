@@ -80,9 +80,7 @@ class CLI:
 		
 
 
-
-
-def main():
+def grab_args_from_cli():
 	parser = argparse.ArgumentParser()
 	parser.add_argument("snekboop", help="Sets up the infrastructure.")
 
@@ -105,14 +103,13 @@ def main():
 	parser_upload.add_argument('--shard', type=int, dest='upload_num_shards',default=1)
 	parser_upload.add_argument('--jason_file', action="store", dest='upload_jason_file', help="Path to .json file")
 
-	#parse all commands together from cli
-	#try:
-    #    args = parser.parse_args()
-    #except IOError, msg:
-    #    parser.error(str(msg))
 
-	args = parser.parse_args()
+	args = parser.parse_args() #put into try catch and test later
+	return args
 
+def main():
+	
+	args = grab_args_from_cli()
 	cli_handler = CLI()
 
     #testing that we can retireve all cli commands correctly
