@@ -3,7 +3,7 @@ import json
 import aioredis
 import asyncio
 import requests
-import requests_async
+import aiohttp
 
 
 def handler(event, context):
@@ -46,27 +46,33 @@ async def query_job(loop, name, shards, function_url):
     conns = []
     results = []
     final_result = []
+    async with aiohttp.ClientSession() as session:
+        for shard in shards:
+            shard_dict = json.loads(shard)
+            conn = await aioredis.create_redis(
+                (shard_dict["host"], shard_dict["port"]))
+            data = await conn.lrange(name, 0, -1)
+            post_json = {
+                "data": list(map(lambda d: d.decode("utf-8").strip('"'), data))
+            }
+            print(post_json)
+            headers = {
+                "Content-Type": "application/json",
 
-    for shard in shards:
-        shard_dict = json.loads(shard)
-        conn = await aioredis.create_redis(
-            (shard_dict["host"], shard_dict["port"]))
-        data = await conn.lrange(name, 0, -1)
+                "Accept": "application/json"
+            }
+            result = process_data(session, function_url,json.dumps(post_json),headers)
+            conns.append(conn)
+            results.append(result)
 
-        post_json = {
-            "data": data
-        }
-        params = {
-            "Content-Type": "application/json"
-        }
-        result = requests_async.post(url=function_url, json=post_json, params=params)
-        conns.append(conn)
-        results.append(result)
+        for result in results:
+            print(await result)
 
-    for result in results:
-        print(result)
-
-    for conn in conns:
-        conn.close()
+        for conn in conns:
+            conn.close()
 
     return final_result
+
+async def process_data(session, url, data, headers):
+    async with session.post(url, data=data, headers=headers) as response:
+        return await response.read()
