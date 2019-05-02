@@ -66,7 +66,7 @@ async def query_job(loop, name, shards, function_url):
             results.append(result)
 
         for result in results:
-            print(await result)
+            final_result.extend(await result)
 
         for conn in conns:
             conn.close()

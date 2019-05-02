@@ -16,26 +16,24 @@ upload_url="???"
 
 
 
-class api_calls:
 
-    def query_call(func, parameters, json_item):
-        return requests.post(url=query_url,json=post_json,params=parameters).json()[json_item]
-         
-
-    def upload_call(func, url, json_item):
-        return requests.post(url=upload_url,json=post_json,params=parameters).json()[json_item]
-
-
-    def write_call(func, url, json_item):
-        return requests.post(url=write_url,json=post_json,params=parameters).json()[json_item]
-
-    def add_function_call(func, url, json_item):
-        return requests.post(url=add_function_url,json=post_json,params=parameters).json()[json_item]
+def query_call(name, function):
+    json_data = {
+        "name" : name,
+        "function" : function
+    }
+    headers = {
+        "Content-Type" : "application/json"
+    }
+    return requests.post(url=query_url,data=json.dumps(json_data), headers=headers).json()["body"]
 
 
-if __name__ == '__main__':
-     app.run(port='5000') #check that this port will work
-
+def write_call(name, data):
+    json_data = {
+        "name": name,
+        "data": data
+    }
+    requests.post(url=query_url,data=json.dumps(json_data)).json()
 
 
 
