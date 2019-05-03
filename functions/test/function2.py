@@ -4,7 +4,8 @@ import json
 # name: lcs
 #
 def lambda_handler(event, context):
-    data = event.data
+
+    data = event["data"]
 
     changed = []
     for datum in data:
@@ -12,7 +13,8 @@ def lambda_handler(event, context):
             changed.append(lcs(datum,datum2))
     return {
         'statusCode': 200,
-        'body': json.dumps(changed)
+        "headers": {"Content-Type": "application/json"},
+        'body': changed
     }
 
 
