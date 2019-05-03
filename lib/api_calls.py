@@ -17,7 +17,7 @@ upload_url="???"
 
 
 
-def query_call(name, function):
+def query(name, function):
     json_data = {
         "name" : name,
         "function" : function
@@ -28,7 +28,7 @@ def query_call(name, function):
     return requests.post(url=query_url,data=json.dumps(json_data), headers=headers).json()["body"]
 
 
-def write_call(name, data):
+def write(name, data):
     json_data = {
         "name": name,
         "data": data
@@ -39,7 +39,7 @@ def write_call(name, data):
 
 
 
-print(query_call("fruits","reverse"))
+print(query("fruits","reverse"))
 
 
 
