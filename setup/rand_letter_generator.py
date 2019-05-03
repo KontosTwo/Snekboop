@@ -11,7 +11,7 @@ def gen_rand_letters():
     data = []
 
     i = 0
-    while i < 100000:
+    while i < 1000:
         
         
         word_limit = random.randint(20, 30)

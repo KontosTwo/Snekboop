@@ -33,7 +33,10 @@ def write(name, data):
         "name": name,
         "data": data
     }
-    requests.post(url=write_url,data=json.dumps(json_data)).json()
+    headers = {
+        "Content-Type": "application/json"
+    }
+    print(requests.post(url=write_url,data=json.dumps(json_data), headers=headers))
 
 
 
