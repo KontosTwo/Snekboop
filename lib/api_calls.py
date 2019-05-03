@@ -33,13 +33,8 @@ def write(name, data):
         "name": name,
         "data": data
     }
-    requests.post(url=query_url,data=json.dumps(json_data)).json()
+    requests.post(url=write_url,data=json.dumps(json_data)).json()
 
-
-
-
-
-print(query("fruits","reverse"))
 
 
 
