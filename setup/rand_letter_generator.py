@@ -8,14 +8,20 @@ def gen_rand_letters():
 
     legal_chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
-    data = ""
+    data = []
 
     i = 0
     while i < 1000000:
-        index = random.randint(0, 25)
-        #myfile.write("test")
-        #data.append(legal_chars[index])
-        data += legal_chars[index]
+        
+        
+        word_limit = random.randint(20, 30)
+        j = 0
+        word = ""
+        while j < word_limit:
+            index = random.randint(0, 25)
+            word += legal_chars[index]
+
+        data.append(word)
         i += 1
 
     write_call("random_letters", data)
