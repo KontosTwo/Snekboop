@@ -39,7 +39,7 @@ def write_call(name, data):
 
 
 
-
+print(query_call("fruits","reverse"))
 
 
 

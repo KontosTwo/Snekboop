@@ -4,12 +4,14 @@ import json
 # name: reverse
 #
 def lambda_handler(event, context):
-    data = event.data
+
+    data = event["data"]
 
     changed = []
     for datum in data:
-        changed.append(reversed(datum).capitalize())
+        changed.append(datum[::-1].capitalize())
     return {
         'statusCode': 200,
-        'body': json.dumps(changed)
+        "headers": {"Content-Type": "application/json"},
+        'body': changed
     }

@@ -4,7 +4,8 @@ import json
 # name: sort_find
 #
 def lambda_handler(event, context):
-    data : str = event.data
+
+    data = event["data"]
     bubbleSort(data)
     keywords = ["asdfvawe","as","gar","wtav","vatwetb","vwaetwea","awervawet","awetoavwte","vuaw4uho"]
     changed = []
@@ -15,7 +16,8 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps(changed)
+        "headers": {"Content-Type": "application/json"},
+        'body': changed
     }
 
 

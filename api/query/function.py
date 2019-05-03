@@ -31,9 +31,8 @@ def handler(event, context):
     }
     response = requests.post(url=meta_find_function_url, json=post_json2, params=params2).json()
     function_url = response['body']
-
     data = loop.run_until_complete(query_job(loop, name, shards, function_url))
-
+    print(data)
     message = {
         "statusCode": 200,
         "headers": {"Content-Type": "application/json"},
@@ -53,9 +52,8 @@ async def query_job(loop, name, shards, function_url):
                 (shard_dict["host"], shard_dict["port"]))
             data = await conn.lrange(name, 0, -1)
             post_json = {
-                "data": list(map(lambda d: d.decode("utf-8").strip('"'), data))
+                "data": list(map(lambda d: json.loads(d.decode("utf-8")), data))
             }
-            print(post_json)
             headers = {
                 "Content-Type": "application/json",
 
@@ -66,7 +64,8 @@ async def query_job(loop, name, shards, function_url):
             results.append(result)
 
         for result in results:
-            final_result.extend(await result)
+            a_result = await result
+            final_result.extend(json.loads(a_result.decode("utf-8"))["body"])
 
         for conn in conns:
             conn.close()
