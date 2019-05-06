@@ -3,11 +3,11 @@ def lcs(data):
     changed = []
     for datum in data:
         for datum2 in data:
-            changed.append(lcs(datum,datum2))
+            changed.append(helper(datum,datum2))
     return changed
 
 
-def lcs(X, Y):
+def helper(X, Y):
     # find the length of the strings
     m = len(X)
     n = len(Y)

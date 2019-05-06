@@ -25,7 +25,9 @@ def query(name, function):
     headers = {
         "Content-Type" : "application/json"
     }
-    return requests.post(url=query_url,data=json.dumps(json_data), headers=headers).json()["body"]
+    response = requests.post(url=query_url,data=json.dumps(json_data), headers=headers).json()
+    print(response)
+    return response["body"]
 
 
 def write(name, data):
