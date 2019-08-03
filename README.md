@@ -8,7 +8,7 @@ Our project aims to solve the problem of servers not having enough immediate CPU
 ## Solution Architecture
 The public-facing api is query, write. Query maps a function against JSON data under a category in a parallel manner while write writes JSON data to categories. The CLI commands are deploy and add_function. Deploy programmatically sets up the entire snekboop cloud infrastructure and add_function deploys a lambda function and registers its api url to a function_name. 
  
- ![Architecture](https://imgur.com/ADYU8MK)
+ ![Architecture](https://imgur.com/ADYU8MK.png)
  
 The overall design philosophy was to simulate microservices through Lambda and Elasticache. Lambda provides the scalability of compute whereas Elasticache provides the scalability of storage. Both can be independently fine-tuned. 
 	Parallelization is achieved by sharding JSON data under a category across several Elasticache instances, and an instance of a mapper Lambda acts upon each Elasticache instance. 
