@@ -30,25 +30,25 @@ The lifecycle of a query(category, function) request is:
 
 
 ## Cloud and/or Services used
-•	Lambda – for scalable compute
-•	Elasticache Redis – for scalable storage
-•	Cloudwatch – for debugging
-•	EC2 – for ssh’ing into Elasticache Redis instances
-•	VPC – for securing snekboop and controlling network access
+ - Lambda – for scalable compute
+ - Elasticache Redis – for scalable storage
+ - Cloudwatch – for debugging
+ - EC2 – for ssh’ing into Elasticache Redis instances
+ - VPC – for securing snekboop and controlling network access
 
 ## Lessons learnt
 Snekboop was a failure but also a good learning experience. 
-•	Network access is the root of 90% of timed out errors
-•	We should've tried doing something to group services close by
-•	Network latency is gargantuan – this is why snekboop is so slow
-•	Cloudwatch access is essential for debugging
-•	In most cases hiding AWS backend services (Lambda, EC2, etc) behind AWS Gateway is good for abstraction and decoupling purposes.
-•	Some algorithmic analysis to determine what type of algorithms and snekboop specs illustrate the effectiveness of snekboop
-•	Constant team communication is important
+ - Network access is the root of 90% of timed out errors
+ - We should've tried doing something to group services close by
+ - Network latency is gargantuan – this is why snekboop is so slow
+ - Cloudwatch access is essential for debugging
+ - In most cases hiding AWS backend services (Lambda, EC2, etc) behind AWS Gateway is good for abstraction and decoupling purposes.
+ - Some algorithmic analysis to determine what type of algorithms and snekboop specs illustrate the effectiveness of snekboop
+ - Constant team communication is important
 
 ## Individual contributions (if worked in team)
 Vincent Li – backend
-•	Designed and wrote the service code
+ - Designed and wrote the service code
 Chris Cale – devops 
-•	Wrote the deployment scripts and designed the client library
+ - Wrote the deployment scripts and designed the client library
 
