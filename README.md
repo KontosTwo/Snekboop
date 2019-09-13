@@ -49,6 +49,7 @@ Snekboop was a failure but also a good learning experience.
 ## Individual contributions (if worked in team)
 Vincent Li – backend
  - Designed and wrote the service code
+ 
 Chris Cale – devops 
  - Wrote the deployment scripts and designed the client library
 
