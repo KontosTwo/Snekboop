@@ -47,7 +47,7 @@ Snekboop was a failure but also a good learning experience.
  - Constant team communication is important
 
 ## Individual contributions (if worked in team)
-Vincent Li – backend
+VL – backend
  - Designed and wrote the service code
  
 Chris Cale – devops 
